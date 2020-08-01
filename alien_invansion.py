@@ -16,6 +16,7 @@ loses a ship. If the player loses three ships, the game ends.
 import sys
 import pygame
 from settings import Setting
+from ship import Ship
 
 def run_game():
     # Initialize pygame, settings and screen object. 
@@ -24,6 +25,9 @@ def run_game():
     screen = pygame.display.set_mode((game_setting.screen_width,game_setting.screen_height))
 
     pygame.display.set_caption("Alien Invansion")
+
+    # Make a ship
+    ship =  Ship(screen)
 
     # Start the main loop for the game.
     while True:
@@ -35,6 +39,7 @@ def run_game():
 
         # Redraw the screen during each pass through the loop.  
         screen.fill(game_setting.bg_color)
+        ship.blit_me()
 
         # Make the most recently drawn screen visible.
         pygame.display.flip()
