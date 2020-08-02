@@ -12,11 +12,11 @@ the player’s ship or reaches the bottom of the screen, the player
 loses a ship. If the player loses three ships, the game ends.
 
 '''
-
-import sys
 import pygame
+
 from settings import Setting
 from ship import Ship
+import game_functions as gf
 
 def run_game():
     # Initialize pygame, settings and screen object. 
@@ -31,17 +31,7 @@ def run_game():
 
     # Start the main loop for the game.
     while True:
-
-        # Watch for keyboard and mouse events.
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-
-        # Redraw the screen during each pass through the loop.  
-        screen.fill(game_setting.bg_color)
-        ship.blit_me()
-
-        # Make the most recently drawn screen visible.
-        pygame.display.flip()
+        gf.check_event()
+        gf.update_screen(game_setting, screen, ship)
 
 run_game()
