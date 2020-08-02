@@ -21,17 +21,18 @@ import game_functions as gf
 def run_game():
     # Initialize pygame, settings and screen object. 
     pygame.init()
-    game_setting = Setting()
-    screen = pygame.display.set_mode((game_setting.screen_width,game_setting.screen_height))
+    game_settings = Setting()
+    screen = pygame.display.set_mode((game_settings.screen_width,game_settings.screen_height))
 
     pygame.display.set_caption("Alien Invansion")
 
     # Make a ship
-    ship =  Ship(screen)
+    ship =  Ship(game_settings, screen)
 
     # Start the main loop for the game.
     while True:
-        gf.check_event()
-        gf.update_screen(game_setting, screen, ship)
+        gf.check_event(ship)
+        ship.update()
+        gf.update_screen(game_settings, screen, ship)
 
 run_game()
