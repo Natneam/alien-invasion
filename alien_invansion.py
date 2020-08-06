@@ -13,6 +13,7 @@ loses a ship. If the player loses three ships, the game ends.
 
 '''
 import pygame
+from pygame.sprite import Group
 
 from settings import Setting
 from ship import Ship
@@ -28,11 +29,14 @@ def run_game():
 
     # Make a ship
     ship =  Ship(game_settings, screen)
+    # Make a group to store a bullet in.
+    bullets = Group()
 
     # Start the main loop for the game.
     while True:
-        gf.check_event(ship)
+        gf.check_events(game_settings, screen, ship, bullets)
         ship.update()
-        gf.update_screen(game_settings, screen, ship)
+        gf.update_bullets(bullets)
+        gf.update_screen(game_settings, screen, ship, bullets)
 
 run_game()
