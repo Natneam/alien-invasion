@@ -53,7 +53,7 @@ def fire_bullet(game_settings,screen, ship, bullets):
 
 # Update bullets position
 
-def update_bullets(bullets):
+def update_bullets(game_settings, screen, ship, aliens, bullets):
     '''update the position of the bullet and get rid of old bullets'''
     # Update bullets positions.
     bullets.update()
@@ -62,7 +62,17 @@ def update_bullets(bullets):
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+    
+    check_bullet_alien_collision(game_settings, screen, ship, aliens, bullets)
 
+def check_bullet_alien_collision(game_settings, screen, ship, aliens, bullets):
+    '''Respond to bullet-alien collisions'''
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
+    if len(aliens) == 0:
+        # Destroy existing bullet and create new fleet.
+        bullets.empty()
+        create_fleet(game_settings, screen, ship, aliens)
 
 #update screen function
 
