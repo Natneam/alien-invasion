@@ -31,7 +31,11 @@ class Ship():
             self.center -= self.game_settings.ship_speed_factor
 
         # Update rect object from self.center.
-        self.rect.centerx = self.center    
+        self.rect.centerx = self.center 
+
+    def center_ship(self):
+        self.rect.centerx = self.screen_rect.centerx
+
     def blit_me(self):
         '''draw the ship at its current location'''
         self.screen.blit(self.image,self.rect)
