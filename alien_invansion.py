@@ -19,6 +19,7 @@ from settings import Setting
 from ship import Ship
 import game_functions as gf
 from game_stats import GameStats
+from button import Button
 
 def run_game():
     # Initialize pygame, settings and screen object. 
@@ -27,6 +28,10 @@ def run_game():
     screen = pygame.display.set_mode((game_settings.screen_width,game_settings.screen_height))
 
     pygame.display.set_caption("Alien Invansion")
+    
+    # Make the Play button
+    
+    play_button = Button(game_settings, screen, "Play")  
 
     # Create and instance to store game statstics
     stats = GameStats(game_settings) 
@@ -41,11 +46,11 @@ def run_game():
 
     # Start the main loop for the game.
     while True:
-        gf.check_events(game_settings, screen, ship, bullets)
+        gf.check_events(game_settings, screen, stats , play_button, ship, bullets)
         if stats.game_active:
             ship.update()
             gf.update_bullets(game_settings, screen, ship, aliens, bullets)
             gf.update_aliens(game_settings, stats, screen, ship, aliens, bullets)
-            gf.update_screen(game_settings, screen, ship, aliens, bullets)
+        gf.update_screen(game_settings, screen, stats, ship, aliens, bullets, play_button)
 
 run_game()
