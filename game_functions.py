@@ -84,7 +84,7 @@ def fire_bullet(game_settings,screen, ship, bullets):
 
 # Update bullets position
 
-def update_bullets(game_settings, screen, ship, aliens, bullets):
+def update_bullets(game_settings, screen, stats, sb, ship, aliens, bullets):
     '''update the position of the bullet and get rid of old bullets'''
     # Update bullets positions.
     bullets.update()
@@ -94,11 +94,16 @@ def update_bullets(game_settings, screen, ship, aliens, bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
     
-    check_bullet_alien_collision(game_settings, screen, ship, aliens, bullets)
+    check_bullet_alien_collision(game_settings, screen, stats, sb, ship, aliens, bullets)
 
-def check_bullet_alien_collision(game_settings, screen, ship, aliens, bullets):
+def check_bullet_alien_collision(game_settings, screen, stats, sb, ship, aliens, bullets):
     '''Respond to bullet-alien collisions'''
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
+    if collisions:
+        for aliens in collisions.values():
+            stats.score += game_settings.alien_points * len(aliens)
+            sb.prep_score()
 
     if len(aliens) == 0:
         # Destroy existing bullet, speed up game and create new fleet.
@@ -108,7 +113,7 @@ def check_bullet_alien_collision(game_settings, screen, ship, aliens, bullets):
 
 #update screen function
 
-def update_screen(game_settings, screen, stats, ship, aliens, bullets, play_button):
+def update_screen(game_settings, screen, stats, sb, ship, aliens, bullets, play_button):
     '''Update image on the screen and flip to the new screen'''
 
     # Redraw the screen during each pass through the loop.  
@@ -120,6 +125,9 @@ def update_screen(game_settings, screen, stats, ship, aliens, bullets, play_butt
         
     ship.blit_me()
     aliens.draw(screen)
+
+    # Draw the score information.
+    sb.show_score()
 
     # Draw the play button if the game is in active.
     if not stats.game_active:
