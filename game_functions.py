@@ -70,8 +70,10 @@ def start_game(game_settings, screen, stats, sb, aliens, bullets, ship):
     create_fleet(game_settings, screen, ship, aliens)
     ship.center_ship()
 
-    # reseting the score display
+    # reseting the scoreboard display
     sb.prep_score()
+    sb.prep_high_score()
+    sb.prep_level()
 
 
 
@@ -110,9 +112,15 @@ def check_bullet_alien_collision(game_settings, screen, stats, sb, ship, aliens,
         check_high_score(stats,sb)
 
     if len(aliens) == 0:
-        # Destroy existing bullet, speed up game and create new fleet.
+        # If the entire fleet is destroy start new level.
+
         bullets.empty()
         game_settings.increase_speed()
+
+        # Increase level.
+        stats.level += 1
+        sb.prep_level()
+
         create_fleet(game_settings, screen, ship, aliens)
 
 #update screen function
