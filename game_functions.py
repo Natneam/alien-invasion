@@ -2,7 +2,7 @@
 file to store a number of functions that make the logic
 in alien_invasion.py easier to follow
 '''
-import pygame, sys
+import pygame, sys, json
 from time import sleep
 from bullet import Bullet
 from alien import Alien
@@ -35,6 +35,11 @@ def check_events(game_settings, screen, stats, sb, play_button, ship, aliens, bu
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            try:
+                with open("high_score.json", 'w') as f_obj:
+                    json.dump(stats.high_score, f_obj)
+            except:
+                pass
             sys.exit()
         elif event.type == pygame.KEYDOWN:
             check_keydown_events(event, game_settings, screen, ship, bullets)
